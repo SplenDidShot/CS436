@@ -88,10 +88,24 @@ DATABASES = {
     }
 }
 """
+
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+    }
+}
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'lab4_part3',
+            'USER': 'SplenDidShot',
+            'PASSWORD': 'a85201236',
+            'HOST': 'lab4sqldb.cbzo7d2ydwga.us-west-2.rds.amazonaws.com',
+            'PORT': '3306',
     }
 }
 
@@ -141,10 +155,18 @@ REST_FRAMEWORK = {
 }
 
 # cache memory
+"""
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': '127.0.0.1:11211',
+    }
+}
+"""
+CACHES = {
+    'default': {
+        'BACKEND': 'django_elasticache.memcached.ElastiCache',
+        'LOCATION': 'memcache.snropb.0001.use2.cache.amazonaws.com:11211',
     }
 }
 
