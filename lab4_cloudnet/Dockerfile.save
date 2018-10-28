@@ -1,0 +1,41 @@
+FROM ubuntu:18.04
+
+WORKDIR /home/ubuntu/lab4_cloudnet
+
+# Install required packages and remove the apt packages cache when done.
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+    npm \
+    python3 \
+    python3-dev \
+    python3-setuptools \
+    python3-pip \
+    nginx \
+    sqlite3 \
+    memcached \
+    libmemcached-dev \
+    zlib1g-dev
+
+COPY requirements.txt /home/ubuntu/lab4_cloudnet
+RUN pip3 install -r requirements.txt
+
+COPY package.json /home/ubuntu/lab4_cloudnet
+RUN npm config set registry http://registry.npmjs.org/
+RUN npm install material-ui-icons@1.0.0-beta.17
+RUN npm install material-ui@1.0.0-beta.34
+RUN npm install 
+
+COPY . /home/ubuntu/lab4_cloudnet
+#RUN ls -la /app/*
+
+EXPOSE 8001
+
+COPY cloudnet_nginx.conf /etc/nginx/sites-available/
+RUN ln -s /etc/nginx/sites-available/cloudnet_nginx.conf /etc/nginx/sites-enabled/
+
+#COPY build /app
+#RUN python3 manage.py collectstatic --noinput
+#RUN yes yes | python3 manage.py collectstatic
+
+CMD /etc/init.d/nginx start; npm run build; npm start
